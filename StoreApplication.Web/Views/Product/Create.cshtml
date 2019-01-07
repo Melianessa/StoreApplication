@@ -1,0 +1,51 @@
+﻿@model StoreApplication.Web.ProductDTOEdit
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "_Layout";
+}
+<strong>Create</strong>
+<form asp-action="Create">
+    <div class="form-horizontal">
+        <strong>Category</strong>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="@Model.ProductDTO.ProductName" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="@Model.ProductDTO.ProductName" class="form-control" />
+                <span asp-validation-for="@Model.ProductDTO.ProductName" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.ProductDTO.ProductDescription" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="@Model.ProductDTO.ProductDescription" class="form-control" />
+                <span asp-validation-for="@Model.ProductDTO.ProductDescription" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.ProductDTO.ProductSortOrder" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="@Model.ProductDTO.ProductSortOrder" class="form-control" />
+                <span asp-validation-for="@Model.ProductDTO.ProductSortOrder" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.ProductDTO.ProductCategory" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <label class="control-label">ProductCategory</label>
+                <select class="form-control" id="CategoryId" name="CategoryId" asp-for="@Model.ProductDTO.ProductCategory" asp-items="@(new SelectList(@Model.CategoriesDTO,"CategoryId","CategoryName"))"></select>
+            </div>
+        </div>
+        <div class=" form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

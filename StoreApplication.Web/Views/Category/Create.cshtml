@@ -1,0 +1,44 @@
+﻿@model StoreApplication.Web.CategoryDTO
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "_Layout";
+}
+<strong>Create</strong>
+<form asp-action="Create">
+    <div class="form-horizontal">
+        <strong>Category</strong>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="CategoryName" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="CategoryName" class="form-control" />
+                <span asp-validation-for="CategoryName" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="CategoryDescription" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="CategoryDescription" class="form-control" />
+                <span asp-validation-for="CategoryDescription" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="CategorySortOrder" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="CategorySortOrder" class="form-control" />
+                <span asp-validation-for="CategorySortOrder" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

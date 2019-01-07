@@ -1,0 +1,61 @@
+﻿@model IEnumerable<StoreApplication.Web.CategoryDTO>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "_Layout";
+}
+<strong>
+    Index
+</strong>
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CategoryId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CategoryName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreationDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CategoryDescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CategorySortOrder)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItel => item.CategoryId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItel => item.CategoryName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItel => item.CreationDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItel => item.CategoryDescription)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItel => item.CategorySortOrder)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.CategoryId">Edit</a>
+                    | <a asp-action="Delete" asp-route-id="@item.CategoryId">Delete</a> |
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

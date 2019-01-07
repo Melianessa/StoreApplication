@@ -1,0 +1,72 @@
+﻿@model IEnumerable<StoreApplication.Web.ProductDTO>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "_Layout";
+}
+<strong>
+    Index
+</strong>
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreationDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductDescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductCategory.CategoryName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductImage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductSortOrder)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItel => item.ProductId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItel => item.ProductName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItel => item.CreationDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItel => item.ProductDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItel => item.ProductCategory.CategoryName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItel => item.ProductImage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItel => item.ProductSortOrder)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ProductId">Edit</a>
+                | <a asp-action="Delete" asp-route-id="@item.ProductId">Delete</a> |
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
