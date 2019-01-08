@@ -22,7 +22,7 @@ namespace StoreApplication.Web.Controllers
             if (res.IsSuccessStatusCode)
             {
                 var result = await res.Content.ReadAsStringAsync();
-                dto = JsonConvert.DeserializeObject<List<CategoryDTO>>(result);
+                dto = JsonConvert.DeserializeObject<List<CategoryDTO>>(result).OrderBy(c => c.CategorySortOrder).ToList();
             }
 
             return View(dto);

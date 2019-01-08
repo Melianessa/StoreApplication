@@ -33,7 +33,7 @@ namespace StoreApplication.Web.Controllers
             if (res.IsSuccessStatusCode)
             {
                 var result = res.Content.ReadAsStringAsync().Result;
-                dto = JsonConvert.DeserializeObject<List<ProductDTO>>(result);
+                dto = JsonConvert.DeserializeObject<List<ProductDTO>>(result).OrderBy(p=>p.ProductSortOrder).ToList();
             }
             return View(dto);
         }
