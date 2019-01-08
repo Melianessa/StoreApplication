@@ -4,11 +4,10 @@
     ViewBag.Title = "Index";
     Layout = "_Layout";
 }
-<strong>
-    Index
-</strong>
+<br/>
 <p>
-    <button class="btn btn-success" asp-action="Create">Create New</button>
+    <a class="btn btn-success" asp-action="Create">Create New</a>
+    <a class="btn btn-info" asp-controller="Category" asp-action="Index">Go to Categories</a>
 </p>
 <table class="table">
     <thead>
@@ -63,10 +62,10 @@
                     @Html.DisplayFor(modelItel => item.ProductSortOrder)
                 </td>
                 <td>
-                    <button class="btn btn-warning" asp-action="Edit" asp-route-id="@item.ProductId">Edit</button>
+                    <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.ProductId">Edit</a>
                 </td>
                 <td>
-                    <button class="btn btn-danger" asp-action="Delete" asp-route-id="@item.ProductId">Delete</button> 
+                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.ProductId">Delete</a> 
                 </td>
             </tr>
         }
