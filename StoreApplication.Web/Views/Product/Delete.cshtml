@@ -1,0 +1,64 @@
+﻿@model StoreApplication.Web.ProductDTO
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "_Layout";
+}
+<strong>Delete</strong>
+
+<strong>Are you sure you want to delete this?</strong>
+<div>
+    <strong>Category</strong>
+    <hr />
+    <dl class="dl-horizontal">
+        <input type="hidden" asp-for="ProductId" />
+        <dt>
+            @Html.DisplayNameFor(model => model.ProductName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ProductName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ProductId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ProductId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ProductDescription)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ProductDescription)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CreationDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CreationDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ProductSortOrder)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ProductSortOrder)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ProductCategory)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ProductCategory)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ProductImage)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ProductImage)
+        </dd>
+    </dl>
+
+    <form asp-action="Delete">
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            <a asp-action="Index">Back to List</a>
+        </div>
+    </form>
+</div>

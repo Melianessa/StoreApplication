@@ -5,7 +5,7 @@
     Layout = "_Layout";
 }
 <strong>Create</strong>
-<form asp-action="Create">
+<form method="post" enctype="multipart/form-data" asp-controller="Product" asp-action="Create">
     <div class="form-horizontal">
         <strong>Category</strong>
         <hr />
@@ -36,6 +36,12 @@
             <div class="col-md-10">
                 <label class="control-label">ProductCategory</label>
                 @Html.DropDownListFor(m => m.CategoryId, new SelectList(@Model.CategoriesDTO, "CategoryId", "CategoryName"), "Select category", new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 control-label">Product Image</label>
+            <div class="col-md-10">
+                <input  class="form-control"  type="file" name="pic" accept="image/*"/>             
             </div>
         </div>
         <div class=" form-group">

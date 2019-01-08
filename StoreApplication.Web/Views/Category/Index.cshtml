@@ -8,7 +8,7 @@
     Index
 </strong>
 <p>
-    <a asp-action="Create">Create New</a>
+    <button class="btn btn-success" asp-action="Create">Create New</button>
 </p>
 <table class="table">
     <thead>
@@ -34,27 +34,29 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItel => item.CategoryId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItel => item.CategoryName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItel => item.CreationDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItel => item.CategoryDescription)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItel => item.CategorySortOrder)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.CategoryId">Edit</a>
-                    | <a asp-action="Delete" asp-route-id="@item.CategoryId">Delete</a> |
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItel => item.CategoryId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItel => item.CategoryName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItel => item.CreationDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItel => item.CategoryDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItel => item.CategorySortOrder)
+            </td>
+            <td>
+                <button class="btn btn-warning" asp-action="Edit" asp-route-id="@item.CategoryId">Edit</button>
+            </td>
+            <td>
+                <button class="btn btn-danger" asp-action="Delete" asp-route-id="@item.CategoryId">Delete</button>
+            </td>
+        </tr>
         }
     </tbody>
 </table>

@@ -8,7 +8,7 @@
     Index
 </strong>
 <p>
-    <a asp-action="Create">Create New</a>
+    <button class="btn btn-success" asp-action="Create">Create New</button>
 </p>
 <table class="table">
     <thead>
@@ -40,33 +40,35 @@
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItel => item.ProductId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItel => item.ProductName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItel => item.CreationDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItel => item.ProductDescription)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItel => item.ProductCategory.CategoryName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItel => item.ProductImage)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItel => item.ProductSortOrder)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ProductId">Edit</a>
-                | <a asp-action="Delete" asp-route-id="@item.ProductId">Delete</a> |
-            </td>
-        </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItel => item.ProductId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItel => item.ProductName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItel => item.CreationDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItel => item.ProductDescription)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItel => item.ProductCategory.CategoryName)
+                </td>
+                <td>
+                    <img width="125" height="75" class="img-responsive" src="@Url.Content("~/images/" + @item.ProductImage)" alt="">
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItel => item.ProductSortOrder)
+                </td>
+                <td>
+                    <button class="btn btn-warning" asp-action="Edit" asp-route-id="@item.ProductId">Edit</button>
+                </td>
+                <td>
+                    <button class="btn btn-danger" asp-action="Delete" asp-route-id="@item.ProductId">Delete</button> 
+                </td>
+            </tr>
         }
     </tbody>
 </table>

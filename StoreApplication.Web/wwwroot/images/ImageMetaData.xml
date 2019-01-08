@@ -1,1 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
+<images>
+  <image>
+    <filename>milk.png</filename>
+    <description>Milk</description>
+  </image>
+  <image>
+    <filename>pumpkin.png</filename>
+    <description>Pumpkin</description>
+  </image>
+</images>

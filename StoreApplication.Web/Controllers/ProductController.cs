@@ -7,12 +7,24 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using StoreApplication.Web;
+using Microsoft.AspNetCore.Http;
+using System.ComponentModel.DataAnnotations;
+using System.IO;
+using System.Net.Mime;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Net.Http.Headers;
 
 namespace StoreApplication.Web.Controllers
 {
     public class ProductController : Controller
     {
         StoreAPI _productAPI = new StoreAPI();
+        private readonly IHostingEnvironment _hostingEnvironment;
+
+        public ProductController(IHostingEnvironment hostingEnvironment)
+        {
+            _hostingEnvironment = hostingEnvironment;
+        }
         public async Task<IActionResult> Index()
         {
             List<ProductDTO> dto = new List<ProductDTO>();
@@ -46,6 +58,25 @@ namespace StoreApplication.Web.Controllers
             HttpClient client = _productAPI.InitializeClient();
             if (ModelState.IsValid)
             {
+                var files = HttpContext.Request.Form.Files;
+                foreach (var Image in files)
+                {
+                    if (Image != null && Image.Length > 0)
+                    {
+                        var file = Image;
+                        var uploads = Path.Combine(_hostingEnvironment.WebRootPath, "images");
+                        if (file.Length > 0)
+                        {
+                            var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim();
+                            Console.WriteLine(fileName);
+                            using (var fileStream = new FileStream(Path.Combine(uploads, file.FileName), FileMode.Create))
+                            {
+                                await file.CopyToAsync(fileStream);
+                                product.ProductDTO.ProductImage = file.FileName;
+                            }
+                        }
+                    }
+                }
                 product.ProductDTO.ProductCategory = new CategoryDTO() { CategoryId = product.CategoryId };
                 var content = new StringContent(JsonConvert.SerializeObject(product.ProductDTO), Encoding.UTF8, "application/json");
                 HttpResponseMessage res = client.PostAsync("api/product", content).Result;
@@ -65,10 +96,6 @@ namespace StoreApplication.Web.Controllers
 
         public async Task<IActionResult> Edit(Guid id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
             ProductDTOEdit pdto = new ProductDTOEdit();
             HttpClient client = _productAPI.InitializeClient();
             HttpResponseMessage res = await client.GetAsync($"api/product/{id}");
@@ -77,6 +104,8 @@ namespace StoreApplication.Web.Controllers
             {
                 pdto.ProductDTO = JsonConvert.DeserializeObject<ProductDTO>(await res.Content.ReadAsStringAsync());
                 pdto.CategoriesDTO = JsonConvert.DeserializeObject<List<CategoryDTO>>(await resCategory.Content.ReadAsStringAsync());
+                pdto.CategoryId = pdto.ProductDTO.ProductCategory.CategoryId;
+                
             }
 
             return View(pdto);
@@ -84,21 +113,33 @@ namespace StoreApplication.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Guid id,
-            [Bind(
-                "ProductId,CreationDate,ProductName,ProductDescription,ProductCategory,ProductImage,ProductSortOrder")]
-            ProductDTO product)
+        public async Task<IActionResult> Edit(Guid id, [Bind("CategoryId,CategoriesDTO,ProductDTO")]ProductDTOEdit product)
         {
-            if (id != product.ProductId)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
+                var files = HttpContext.Request.Form.Files;
+                foreach (var Image in files)
+                {
+                    if (Image != null && Image.Length > 0)
+                    {
+                        var file = Image;
+                        var uploads = Path.Combine(_hostingEnvironment.WebRootPath, "images");
+                        if (file.Length > 0)
+                        {
+                            var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim();
+                            Console.WriteLine(fileName);
+                            using (var fileStream = new FileStream(Path.Combine(uploads, file.FileName), FileMode.Create))
+                            {
+                                await file.CopyToAsync(fileStream);
+                                product.ProductDTO.ProductImage = file.FileName;
+                            }
+                        }
+                    }
+                }
                 HttpClient client = _productAPI.InitializeClient();
-                var content = new StringContent(JsonConvert.SerializeObject(product), Encoding.UTF8, "application/json");
-                HttpResponseMessage res = client.PutAsync("api/product", content).Result;
+                product.ProductDTO.ProductCategory = new CategoryDTO() { CategoryId = product.CategoryId };
+                var content = new StringContent(JsonConvert.SerializeObject(product.ProductDTO), Encoding.UTF8, "application/json");
+                HttpResponseMessage res = client.PutAsync($"api/product/{id}", content).Result;
                 if (res.IsSuccessStatusCode)
                 {
                     return RedirectToAction("Index");
@@ -110,26 +151,19 @@ namespace StoreApplication.Web.Controllers
 
         public async Task<IActionResult> Delete(Guid id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-            List<ProductDTO> dto = new List<ProductDTO>();
+            ProductDTO dto = new ProductDTO();
             HttpClient client = _productAPI.InitializeClient();
-            HttpResponseMessage res = await client.GetAsync("api/product");
+            HttpResponseMessage res = await client.GetAsync($"api/product/{id}");
             if (res.IsSuccessStatusCode)
             {
                 var result = res.Content.ReadAsStringAsync().Result;
-                dto = JsonConvert.DeserializeObject<List<ProductDTO>>(result);
+                dto = JsonConvert.DeserializeObject<ProductDTO>(result);
             }
-
-            var product = dto.SingleOrDefault(p => p.ProductId == id);
-            if (product == null)
+            if (dto == null)
             {
                 return NotFound();
             }
-
-            return View(product);
+            return View(dto);
         }
 
         [HttpPost, ActionName("Delete")]

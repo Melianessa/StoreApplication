@@ -16,7 +16,7 @@ namespace StoreApplication.WebApi.Models.DataManager
         }
         public IEnumerable<Product> ViewAll()
         {
-            var product = ctx.Products.Include(p=> p.ProductCategory).ToList();
+            var product = ctx.Products.Include(p => p.ProductCategory).ToList();
             return product;
         }
         public Guid Create(Product b)
@@ -34,11 +34,15 @@ namespace StoreApplication.WebApi.Models.DataManager
             var product = ctx.Products.Find(id);
             if (product != null)
             {
-                product.ProductCategory = b.ProductCategory;
+                ctx.Categories.Attach(b.ProductCategory);
                 product.ProductDescription = b.ProductDescription;
-                product.ProductImage = b.ProductImage;
+                if (product.ProductImage == null && b.ProductImage != null)
+                {
+                    product.ProductImage = b.ProductImage;
+                }
                 product.ProductName = b.ProductName;
                 product.ProductSortOrder = b.ProductSortOrder;
+                product.ProductCategory = b.ProductCategory;
                 ctx.SaveChanges();
             }
             return id;
@@ -46,14 +50,14 @@ namespace StoreApplication.WebApi.Models.DataManager
 
         public Product View(Guid id)
         {
-            var product = ctx.Products.FirstOrDefault(p => p.ProductId == id);
+            var product = ctx.Products.Include(p => p.ProductCategory).FirstOrDefault(p => p.ProductId == id);
             return product;
         }
 
         public Guid Delete(Guid id)
         {
             var product = ctx.Products.Find(id);
-            if (product!=null)
+            if (product != null)
             {
                 ctx.Products.Remove(product);
                 ctx.SaveChanges();

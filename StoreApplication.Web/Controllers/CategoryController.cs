@@ -54,11 +54,6 @@ namespace StoreApplication.Web.Controllers
 
         public async Task<IActionResult> Edit(Guid id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
             CategoryDTO dto = new CategoryDTO();
             HttpClient client = _categoryAPI.InitializeClient();
             HttpResponseMessage res = await client.GetAsync($"api/category/{id}");
@@ -83,11 +78,6 @@ namespace StoreApplication.Web.Controllers
                 "CategoryId,CreationDate,CategoryName,CategoryDescription,CategorySortOrder")]
             CategoryDTO category)
         {
-            if (id != category.CategoryId)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
                 HttpClient client = _categoryAPI.InitializeClient();
@@ -105,11 +95,6 @@ namespace StoreApplication.Web.Controllers
 
         public async Task<IActionResult> Delete(Guid id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
             List<CategoryDTO> dto = new List<CategoryDTO>();
             HttpClient client = _categoryAPI.InitializeClient();
             HttpResponseMessage res = await client.GetAsync("api/category");
