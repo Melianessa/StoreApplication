@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -44,6 +45,8 @@ namespace StoreApplication.Web
 
     public class ProductDTOEdit
     {
+        [Required(ErrorMessage = "Please select a role")]
+        public Guid CategoryId { get; set; }
         public ProductDTO ProductDTO { get; set; }
         public List<CategoryDTO> CategoriesDTO { get; set; }
     }

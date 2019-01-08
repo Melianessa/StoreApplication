@@ -21,8 +21,10 @@ namespace StoreApplication.WebApi.Models.DataManager
         }
         public Guid Create(Product b)
         {
+            b.ProductId = Guid.NewGuid();
+            b.CreationDate = DateTime.UtcNow;
+            ctx.Categories.Attach(b.ProductCategory);
             ctx.Products.Add(b);
-            b.ProductId = new Guid();
             ctx.SaveChanges();
             return b.ProductId;
         }

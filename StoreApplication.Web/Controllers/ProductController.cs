@@ -41,20 +41,24 @@ namespace StoreApplication.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(
-            [Bind(
-                "ProductId,CreationDate,ProductName,ProductDescription,ProductCategory,ProductImage,ProductSortOrder")]
-            ProductDTOEdit product)
+        public async Task<IActionResult> Create([Bind("CategoryId,CategoriesDTO,ProductDTO")] ProductDTOEdit product)
         {
+            HttpClient client = _productAPI.InitializeClient();
             if (ModelState.IsValid)
             {
-                HttpClient client = _productAPI.InitializeClient();
-                var content = new StringContent(JsonConvert.SerializeObject(product), Encoding.UTF8, "application/json");
+                product.ProductDTO.ProductCategory = new CategoryDTO() { CategoryId = product.CategoryId };
+                var content = new StringContent(JsonConvert.SerializeObject(product.ProductDTO), Encoding.UTF8, "application/json");
                 HttpResponseMessage res = client.PostAsync("api/product", content).Result;
                 if (res.IsSuccessStatusCode)
                 {
                     return RedirectToAction("Index");
                 }
+            }
+            HttpResponseMessage resCategory = await client.GetAsync("api/category");
+            if (resCategory.IsSuccessStatusCode)
+            {
+                var resultCategory = await resCategory.Content.ReadAsStringAsync();
+                product.CategoriesDTO = JsonConvert.DeserializeObject<List<CategoryDTO>>(resultCategory);
             }
             return View(product);
         }

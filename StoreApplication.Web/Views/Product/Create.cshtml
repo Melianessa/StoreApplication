@@ -35,7 +35,7 @@
             <label asp-for="@Model.ProductDTO.ProductCategory" class="col-md-2 control-label"></label>
             <div class="col-md-10">
                 <label class="control-label">ProductCategory</label>
-                <select class="form-control" id="CategoryId" name="CategoryId" asp-for="@Model.ProductDTO.ProductCategory" asp-items="@(new SelectList(@Model.CategoriesDTO,"CategoryId","CategoryName"))"></select>
+                @Html.DropDownListFor(m => m.CategoryId, new SelectList(@Model.CategoriesDTO, "CategoryId", "CategoryName"), "Select category", new { @class = "form-control" })
             </div>
         </div>
         <div class=" form-group">
